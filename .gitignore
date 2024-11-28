@@ -6,6 +6,7 @@
 !**/*.h
 !*.gitignore
 !*.md
+!*/
 
 # Ignorar archivos de compilación y binarios
 *.exe
