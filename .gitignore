@@ -1,0 +1,22 @@
+# Ignorar todos los archivos
+*
+
+# No ignorar archivos .cpp y .h en todas las carpetas y subcarpetas
+!**/*.cpp
+!**/*.h
+!*.gitignore
+!*.md
+
+# Ignorar archivos de compilación y binarios
+*.exe
+*.out
+*.dll
+*.obj
+*.pdb
+*.ilk
+*.lib
+
+# Ignorar configuraciones de IDE
+.vscode/
+*.sln
+*.vcxproj
