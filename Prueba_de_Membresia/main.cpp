@@ -14,7 +14,7 @@ typedef set<int> Gens;
 typedef map<int, Gens> row;
 typedef map<int, row> table;
 
-bool cykAlgorithm(grammatrix, string);
+bool cykAlgorithm(grammatrix&, string&);
 
 int main()
 {
@@ -78,16 +78,13 @@ int main()
     string input = "";
     cin >> input;
     if (cykAlgorithm(grammar, input))
-    {
-        cout << "La cadena puede ser generada por la gramática." << endl;
-    }
+        cout << "Alcanzable" << endl;
     else
-    {
-        cout << "La cadena NO puede ser generada por la gramática." << endl;
-    }
+        cout << "Inalcanzable" << endl;
     return 0;
 }
-bool cykAlgorithm(grammatrix grammar, string word)
+
+bool cykAlgorithm(grammatrix& grammar, string& word)
 {
     int n = word.length();
     table virTable;
@@ -101,16 +98,16 @@ bool cykAlgorithm(grammatrix grammar, string word)
             }
         }
     }
-    for (int length = 2; length <= n; length++)
+    for (int j = 2; j <= n; j++)
     {
-        for (int i = 1; i <= n - length; i++)
+        for (int i = 0; i < n - j + 1; i++)
         {
-            int j = i + length - 1;
-            for (int k = 0; k < j - 1; k++)
+            for (int k = 1; k < j - 1; k++)
             {
                 for (const auto &prod : grammar)
                 {
-                    if (prod.G2 != 0 && virTable[i][k].count(prod.G1) && virTable[k+1][j].count(prod.G2)) {
+                    if (virTable[i][k].count(prod.G1) || virTable[i + k][j - k].count(prod.G2))
+                    {
                         virTable[i][j].insert(prod.G3);
                     }
                 }
@@ -119,7 +116,7 @@ bool cykAlgorithm(grammatrix grammar, string word)
     }
     for (const auto &prod : grammar)
     {
-        if (virTable[0][n - 1].count(prod.G1))
+        if (virTable[0][n - 1].count(1081))
         {
             return true;
         }
