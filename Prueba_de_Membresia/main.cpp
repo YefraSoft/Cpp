@@ -6,7 +6,6 @@ using namespace std;
 
 typedef struct
 {
-    // G1 and G2 ? is terminal  -> G3
     int G1 = 0, G2 = 0, G3 = 0;
 } produ;
 typedef vector<produ> grammatrix;
@@ -14,8 +13,31 @@ typedef set<int> Gens;
 typedef map<int, Gens> row;
 typedef map<int, row> table;
 
-bool cykAlgorithm(grammatrix&, string&);
-
+bool cykAlgorithm(grammatrix &, string &);
+/*
+void printCYKTable(const table& virTable, int n) {
+    cout << "            ";
+    for (int i = 0; i < n; i++) {
+        cout << i << "     ";
+    }
+    cout << endl;
+    for (int i = 0; i < n; i++) {
+        cout << i << " [";
+        for (int j = i; j < n; j++) {
+            if (virTable.at(i).count(j)) {
+                cout << "[";
+                for (const auto& gen : virTable.at(i).at(j)) {
+                    cout << gen << ", ";
+                }
+                cout << "] ";
+            } else {
+                cout << "... ";
+            }
+        }
+        cout << "]" << endl;
+    }
+}
+*/
 int main()
 {
     /*
@@ -84,7 +106,7 @@ int main()
     return 0;
 }
 
-bool cykAlgorithm(grammatrix& grammar, string& word)
+bool cykAlgorithm(grammatrix &grammar, string &word)
 {
     int n = word.length();
     table virTable;
@@ -102,13 +124,14 @@ bool cykAlgorithm(grammatrix& grammar, string& word)
     {
         for (int i = 0; i < n - j + 1; i++)
         {
-            for (int k = 1; k < j - 1; k++)
+            for (int k = 1; k < j; k++)
             {
                 for (const auto &prod : grammar)
                 {
-                    if (virTable[i][k].count(prod.G1) || virTable[i + k][j - k].count(prod.G2))
+                    if (virTable[i][k - 1].count(prod.G3) || virTable[i + k][i + j - 1].count(prod.G3))
                     {
-                        virTable[i][j].insert(prod.G3);
+                        virTable[i][i + j - 1].insert(prod.G1);
+                        virTable[i][i + j - 1].insert(prod.G2);
                     }
                 }
             }
@@ -116,7 +139,7 @@ bool cykAlgorithm(grammatrix& grammar, string& word)
     }
     for (const auto &prod : grammar)
     {
-        if (virTable[0][n - 1].count(1081))
+        if (virTable[0][n - 1].count(1084))
         {
             return true;
         }
